@@ -38,9 +38,23 @@ public class ConjuntoEspalhamento implements Espalhavel{
 	public void adicionar(Mapa mapa) {
 		int indice = funcaoEspalhamento(mapa.getChave()); 
 		Listavel listaTemporaria = (Listavel) tabelaEspalhamento[indice]; 
+		//se existe a chave atualiza o mapa, senão existir insere o mapa
+		if (contemChave(mapa.getChave())) {
+			for (int i = 0; i < listaTemporaria.getQuantidade(); i++) {
+				Mapa elementoLista = (Mapa) listaTemporaria.selecionarUm(i);
+				String chaveLista = elementoLista.getChave();
+			
+				if (chaveLista.equals(mapa.getChave())) {
+					listaTemporaria.atualizar(i, mapa);
+					break;
+				}
+			}			
+		}
+		else {
+			listaTemporaria.anexar(mapa);
+			quantidade++;
+		}
 		
-		listaTemporaria.anexar(mapa);
-		quantidade++;
 	}
 	
 	//remove(), remove o objeto associado a chave especificada
@@ -65,10 +79,13 @@ public class ConjuntoEspalhamento implements Espalhavel{
 						break;
 					}
 				}
-			}			
+			}
+			else {
+				System.err.println("Chave não existente.");
+			}
 		}
 		else {
-				System.err.println("A estrutura de dados está vazia");
+				System.err.println("A estrutura de dados está vazia.");
 		}
 		return dadoAuxiliar;
 	}	
@@ -95,7 +112,7 @@ public class ConjuntoEspalhamento implements Espalhavel{
 			}		
 		} 
 		else {
-				System.err.println("A estrutura de dados está vazia");
+				System.err.println("A estrutura de dados está vazia.");
 		}
 		return chaveEncontrada;
 	}		
@@ -121,6 +138,9 @@ public class ConjuntoEspalhamento implements Espalhavel{
 						break;
 					}
 				}
+			}
+			else {
+				System.err.println("Chave não existente.");
 			}			
 		}
 		else {
